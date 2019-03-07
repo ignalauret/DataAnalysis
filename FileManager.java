@@ -1,9 +1,11 @@
 package ignalau.appauto;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,14 +25,19 @@ public class FileManager extends Activity {
     // Saves the matrix into a file in the external storage with the given name.
     public static void saveDataToFile(SimpleMatrix dataMatrix, String fileName, Activity activity){
         if(isExternalStorageWritable()){
-
             File filePath = new File(Environment.getExternalStorageDirectory(),fileName);
 
-            try{
-                dataMatrix.saveToFileCSV(filePath.toString());
-                Toast.makeText(activity,"File Saved Succesfully.",Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (FileManager.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,activity)) {
+                try {
+                    dataMatrix.saveToFileCSV(filePath.toString());
+                    Toast.makeText(activity, "File Saved Succesfully.", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else {
+            //If I dont have permission, I ask the user.
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
             }
 
         } else {

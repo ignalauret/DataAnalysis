@@ -52,7 +52,7 @@ public class AxisOrientator {
 
     //If I already got two axis, I can calculate the third one by doing the cross product of the first two,
     //relying on the fact that they are orthogonal vectors.
-    public static SimpleMatrix getThirdAxis(SimpleMatrix axis1, SimpleMatrix axis2,String tag) {
+    public static SimpleMatrix getThirdAxis(SimpleMatrix axis1, SimpleMatrix axis2, String tag) {
 
         SimpleMatrix returnAxis;
 
@@ -65,17 +65,9 @@ public class AxisOrientator {
     }
 
     //If I've got constant data it gets the vector where that data is pointing to.
-    public static SimpleMatrix getAverageAxis(SimpleMatrix dataMatrix,int dataSize,String tag){
+    public static SimpleMatrix getAverageAxis(SimpleMatrix dataMatrix,String tag){
 
-        SimpleMatrix returnAxis;
-
-        //It uses the average of each axis to get an estimation of the coordinates of the direction vector.
-        double average_x = dataMatrix.rows(0,1).elementSum()/dataSize;
-        double average_y = dataMatrix.rows(1,2).elementSum()/dataSize;
-        double average_z = dataMatrix.rows(2,3).elementSum()/dataSize;
-
-        returnAxis = new SimpleMatrix(3,1,true,new double[]{average_x,average_y,average_z});
-
+        SimpleMatrix returnAxis = DataAnalizer.average(dataMatrix);
         normalize(returnAxis);
         printAxis(returnAxis,tag + "_axis");
         return returnAxis;
@@ -91,18 +83,17 @@ public class AxisOrientator {
 
 
     //My implementation of the Cross Product.
-    public static SimpleMatrix crossProduct(SimpleMatrix v1, SimpleMatrix v2){
+    public static SimpleMatrix crossProduct(SimpleMatrix m1, SimpleMatrix m2){
 
         SimpleMatrix returnAxis = new SimpleMatrix(3,1,MatrixType.DDRM);
 
-        double[] x = v1.getDDRM().getData();
-        double[] z = v2.getDDRM().getData();
+        double[] x = m1.getDDRM().getData();
+        double[] z = m2.getDDRM().getData();
 
         returnAxis.setColumn(0,0, x[1]*z[2]-x[2]*z[1],x[0]*z[2]*(-1)+x[2]*z[0],x[0]*z[1]-x[1]*z[0]);
         return returnAxis;
 
     }
-
 
     //Shows on console the given 3-Dimensional Vector.
     public static void printAxis(SimpleMatrix axis,String tag){
