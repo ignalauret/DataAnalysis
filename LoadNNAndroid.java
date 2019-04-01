@@ -1,14 +1,10 @@
 package ignalau.appauto;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import org.gitia.froog.layer.Layer;
 import org.gitia.froog.util.Open;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,13 +25,12 @@ import org.xml.sax.SAXException;
  */
 
 //Generates a Feed-forward NN from an Input Stream given by the Java function "getAssets.open()".
-public class LoadNNAndroid {
+class LoadNNAndroid {
 
         private static InputStream archivo = null;
         private static Feedforward net;
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        public static Feedforward getNet(InputStream file) {
+        static Feedforward getNet(InputStream file) {
             net = new Feedforward();
             archivo = file;
             if (archivo != null) {
@@ -45,11 +40,10 @@ public class LoadNNAndroid {
         }
 
         private static String obtenerNodoValor(String strTag, Element eNodo) {
-            Node nValor = (Node) eNodo.getElementsByTagName(strTag).item(0).getFirstChild();
+            Node nValor = eNodo.getElementsByTagName(strTag).item(0).getFirstChild();
             return nValor.getNodeValue();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         private static void agregarCapas() {
 
             try {
