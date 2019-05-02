@@ -80,6 +80,7 @@ class DataAnalizer {
         return dataMatrixCopy;
     }
 
+
     /* Makes the final pre-processing modifications to the data and feeds it into the Neural Network. */
     static String analyzeData(SimpleMatrix dataMatrix, Feedforward nNet,SimpleMatrix axisMatrix,SimpleMatrix dataSaveMatrix, int dataSaveCounter){
 

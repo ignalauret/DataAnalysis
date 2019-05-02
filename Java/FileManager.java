@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -13,7 +14,6 @@ import org.ejml.simple.SimpleMatrix;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
 
 /**
  *
